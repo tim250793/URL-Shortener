@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const ShortUrl = require('../shortUrls')
 require('dotenv').config()
 
 mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -10,6 +11,11 @@ db.on('error', () => {
 })
 db.once('open', () => {
   console.log('mongodb connected!')  
-})
 
-module.exports = db
+
+    for (let i = 0; i < 10; i++) {
+        ShortUrl.create({full:`full-${i}`})
+    }
+    console.log('done')
+  
+})
