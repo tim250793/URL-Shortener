@@ -1,9 +1,8 @@
 const express = require('express')
 const mongoose = require('mongoose')
 const ejs = require('ejs')
-const exphbs = require('express-handlebars')
 const ShortUrl = require('./models/shortUrls')
-const shortenid= require('./urlgenerator')
+const shortenid = require('./urlgenerator')
 require('dotenv').config()
 
 const PORT = process.env.PORT || 3000
@@ -27,24 +26,29 @@ app.set('view engine', 'ejs')
 app.use(express.urlencoded({ extended: false }))
 
 //routes
-app.get('/', async(req, res) => {
+app.get('/', async (req, res) => {
     const shortUrls = await ShortUrl.find()
     res.render('index', {shortUrls: shortUrls})
 })
 
-app.post('/shortUrls', (req, res) => {
-
+app.post('/shortUrls', async (req, res) => {
+    let shorted = shortenid()
+    let Url = req.body.fullUrl
+    console.log(req.body.fullUrl)
+    await ShortUrl.create({
+    Url, shorted
+    })
     res.redirect('/')
 })
 
-app.get('/:shortUrl', async (req, res) => {
-    const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
-    if (shortUrl == null)
-    return res.sendStatus(404)
+// app.get('/:shortUrl', async (req, res) => {
+//     const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
+//     if (shortUrl == null)
+//     return res.sendStatus(404)
 
-    res.redirect(shortUrl.full)
+//     res.redirect(shortUrl.full)
 
-})
+// })
  
 app.listen(PORT, () => {
     console.log(`App is running on http://localhost:${PORT}`)
