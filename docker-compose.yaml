@@ -1,0 +1,11 @@
+version: "3"
+
+services:
+  node:
+    image: node:17
+    volumes:
+      - ./:/var/www/app
+    entrypoint: tail -f /dev/null
+    ports:
+      - "80:3000"
+    workdir: /var/www/app
