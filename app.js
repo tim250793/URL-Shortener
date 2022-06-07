@@ -2,7 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 const ejs = require('ejs')
 const ShortUrl = require('./models/shortUrls')
-const shortenid = require('./urlgenerator')
+const shortenedID = require('./urlgenerator')
 require('dotenv').config()
 
 const PORT = process.env.PORT || 3000
@@ -32,7 +32,7 @@ app.get('/', async (req, res) => {
 })
 
 app.post('/shortUrls', async (req, res) => {
-    let shorted = shortenid()
+    let shorted = shortenedID()
     let Url = req.body.fullUrl
     console.log(req.body.fullUrl)
     await ShortUrl.create({
@@ -41,14 +41,14 @@ app.post('/shortUrls', async (req, res) => {
     res.redirect('/')
 })
 
-// app.get('/:shortUrl', async (req, res) => {
-//     const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
-//     if (shortUrl == null)
-//     return res.sendStatus(404)
+app.get('/:shortUrl', async (req, res) => {
+    const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
+    if (shortUrl == null)
+    return res.sendStatus(404)
 
-//     res.redirect(shortUrl.full)
+    res.redirect(shortUrl.full)
 
-// })
+})
  
 app.listen(PORT, () => {
     console.log(`App is running on http://localhost:${PORT}`)
