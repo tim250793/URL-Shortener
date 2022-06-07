@@ -17,7 +17,7 @@ db.on('error', () => {
   console.log('mongodb error!')
 })
 db.once('open', () => {
-  console.log('mongodb connected!')  
+  console.log('mongodb connected!')
 })
 
 //view engine
@@ -27,29 +27,38 @@ app.use(express.urlencoded({ extended: false }))
 
 //routes
 app.get('/', async (req, res) => {
-    const shortUrls = await ShortUrl.find()
-    res.render('index', {shortUrls: shortUrls})
+  const shortUrls = await ShortUrl.find().limit(10)
+  console.log(shortUrls)
+
+  res.render('index', { shortUrls: shortUrls })
 })
 
 app.post('/shortUrls', async (req, res) => {
-    let shorted = shortenedID()
-    let Url = req.body.fullUrl
-    console.log(req.body.fullUrl)
-    await ShortUrl.create({
-    Url, shorted
-    })
-    res.redirect('/')
+
+  let shorted = shortenid()
+  let fullUrl = req.body.fullUrl
+
+  console.log(await ShortUrl.findOne({ full: fullUrl }))
+
+  if (await ShortUrl.findOne({ full: fullUrl }) === null) {
+    await ShortUrl.create([{
+      "full": fullUrl,
+      "short": shorted
+    }]);
+  }
+  res.redirect('/')
 })
 
 app.get('/:shortUrl', async (req, res) => {
-    const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
-    if (shortUrl == null)
+  const shortUrl = await ShortUrl.findOne({ short: req.params.shortUrl })
+  if (shortUrl == null)
     return res.sendStatus(404)
 
-    res.redirect(shortUrl.full)
+  res.redirect(shortUrl.full)
 
 })
- 
+
+
 app.listen(PORT, () => {
-    console.log(`App is running on http://localhost:${PORT}`)
-  })
+  console.log(`App is running on http://localhost:${PORT}`)
+})

@@ -1,4 +1,4 @@
-const shortenedID = function(length) {
+const shortenid = function shortenid (length = 5) {
     let chars = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
   let str = ''
   for(let i = 0; i < length; i++) {
@@ -7,6 +7,4 @@ const shortenedID = function(length) {
   return str
 }
 
-module.exports = shortenedID
-
-console.log(shortenedID)
+module.exports = shortenid
