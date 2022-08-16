@@ -24,7 +24,11 @@ npm install -g nodemon
 ```
 nodemon app.js
 ```
-6. 若看見此行訊息則代表順利運行，打開瀏覽器進入到以下網址：
+6. 設定環境變數
+```
+MONGODB_URI=mongodb+srv://<Your MongoDB Account>:<Your MongoDB Password>@cluster0.xxxx.xxxx.net/<Your MongoDB Table><?retryWrites=true&w=majority
+```
+7. 若看見此行訊息則代表順利運行，打開瀏覽器進入到以下網址：
 ```
 App is running on http://localhost:3000
 ```
