@@ -1,0 +1,4 @@
+{
+    "mongoURI": "MONGODB_URI=mongodb+srv://<Your MongoDB Account>:<Your MongoDB Password>@cluster0.xxxx.xxxx.net/<Your MongoDB Table><?retryWrites=true&w=majority",
+    "baseUrl": "http://localhost:3000"
+  }

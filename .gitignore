@@ -7,3 +7,4 @@ node_modules
 *.log
 *.gz
 .env
+default.json

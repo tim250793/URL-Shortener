@@ -2,23 +2,14 @@ const express = require('express')
 const mongoose = require('mongoose')
 const ejs = require('ejs')
 const ShortUrl = require('./models/shortUrls')
-const shortenedID = require('./urlgenerator')
-require('dotenv').config()
-
-const PORT = process.env.PORT || 3000
-
+const urlgenerator = require('./urlgenerator')
+const PORT = 3000
 const app = express()
 
-//db connection
-mongoose.connect(process.env.MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 
-const db = mongoose.connection
-db.on('error', () => {
-  console.log('mongodb error!')
-})
-db.once('open', () => {
-  console.log('mongodb connected!')
-})
+//connect to database
+const connectDB = require('./config/mongoose')
+connectDB();
 
 //view engine
 app.set('view engine', 'ejs')
@@ -35,7 +26,7 @@ app.get('/', async (req, res) => {
 
 app.post('/shortUrls', async (req, res) => {
 
-  let shorted = shortenid()
+  let shorted = urlgenerator()
   let fullUrl = req.body.fullUrl
 
   console.log(await ShortUrl.findOne({ full: fullUrl }))
